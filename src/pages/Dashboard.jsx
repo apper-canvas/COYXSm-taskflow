@@ -4,6 +4,7 @@ import { format, isSameDay } from 'date-fns';
 import { Trophy, Calendar, CheckCircle, ArrowRight, Flame } from 'lucide-react';
 import StreakCalendar from '../components/StreakCalendar';
 import { calculateStreak, getCompletedDays, getLongestStreak } from '../utils/streakUtils';
+import { checkAndUpdateDailyStreak, getStreakData } from '../utils/streakService';
 
 const Dashboard = () => {
   const [tasks, setTasks] = useState([]);
@@ -17,15 +18,18 @@ const Dashboard = () => {
     const parsedTasks = savedTasks ? JSON.parse(savedTasks) : [];
     setTasks(parsedTasks);
 
-    // Calculate streaks and stats
-    const completed = getCompletedDays(parsedTasks);
+    // Check and update streak data for the new day
+    const streakData = checkAndUpdateDailyStreak();
+    
+    // Get completed days from streak data
+    const completed = streakData.completedDays.map(dateStr => new Date(dateStr));
     setCompletedDays(completed);
     
-    const current = calculateStreak(completed);
-    setCurrentStreak(current);
+    // Set current streak from stored data
+    setCurrentStreak(streakData.currentStreak);
     
-    const longest = getLongestStreak(completed);
-    setLongestStreak(longest);
+    // Set longest streak from stored data
+    setLongestStreak(streakData.longestStreak);
 
     // Calculate completion rate (tasks completed / total tasks)
     const completedTasks = parsedTasks.filter(task => task.completed).length;
