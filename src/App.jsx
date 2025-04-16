@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
-import { Routes, Route } from 'react-router-dom'
-import { Moon, Sun } from 'lucide-react'
+import { Routes, Route, NavLink } from 'react-router-dom'
+import { Moon, Sun, Home as HomeIcon, BarChart } from 'lucide-react'
 import { motion } from 'framer-motion'
 import Home from './pages/Home'
+import Dashboard from './pages/Dashboard'
 import NotFound from './pages/NotFound'
 
 function App() {
@@ -36,6 +37,41 @@ function App() {
             </motion.div>
           </div>
           
+          <nav className="flex-1 max-w-xs mx-8">
+            <ul className="flex justify-center space-x-2">
+              <li>
+                <NavLink 
+                  to="/" 
+                  className={({ isActive }) => 
+                    `flex items-center px-3 py-2 rounded-lg transition-colors ${
+                      isActive 
+                        ? 'bg-primary/10 text-primary dark:bg-primary-light/10 dark:text-primary-light' 
+                        : 'text-surface-600 dark:text-surface-400 hover:bg-surface-100 dark:hover:bg-surface-700'
+                    }`
+                  }
+                >
+                  <HomeIcon size={18} className="mr-1" />
+                  <span>Home</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink 
+                  to="/dashboard" 
+                  className={({ isActive }) => 
+                    `flex items-center px-3 py-2 rounded-lg transition-colors ${
+                      isActive 
+                        ? 'bg-primary/10 text-primary dark:bg-primary-light/10 dark:text-primary-light' 
+                        : 'text-surface-600 dark:text-surface-400 hover:bg-surface-100 dark:hover:bg-surface-700'
+                    }`
+                  }
+                >
+                  <BarChart size={18} className="mr-1" />
+                  <span>Dashboard</span>
+                </NavLink>
+              </li>
+            </ul>
+          </nav>
+          
           <motion.button
             whileTap={{ scale: 0.9 }}
             onClick={() => setDarkMode(!darkMode)}
@@ -54,6 +90,7 @@ function App() {
       <main className="pt-16 pb-8">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
