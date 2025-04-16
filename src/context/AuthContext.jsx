@@ -3,38 +3,53 @@ import { createContext, useContext, useState, useEffect } from 'react'
 const AuthContext = createContext(null)
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null)
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
+  const [user, setUser] = useState({
+    id: '1',
+    name: 'Demo User',
+    email: 'demo@example.com'
+  })
+  const [isAuthenticated, setIsAuthenticated] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     // Check if user is stored in localStorage
     const storedUser = localStorage.getItem('user')
     if (storedUser) {
       setUser(JSON.parse(storedUser))
-      setIsAuthenticated(true)
+    } else {
+      // Auto-create a demo user
+      const demoUser = {
+        id: '1',
+        name: 'Demo User',
+        email: 'demo@example.com'
+      }
+      localStorage.setItem('user', JSON.stringify(demoUser))
     }
+    setIsAuthenticated(true)
     setIsLoading(false)
   }, [])
 
   const login = (userData) => {
-    // In a real app, this would validate credentials with an API
     setUser(userData)
     setIsAuthenticated(true)
     localStorage.setItem('user', JSON.stringify(userData))
   }
 
   const register = (userData) => {
-    // In a real app, this would send registration data to an API
     setUser(userData)
     setIsAuthenticated(true)
     localStorage.setItem('user', JSON.stringify(userData))
   }
 
   const logout = () => {
-    setUser(null)
-    setIsAuthenticated(false)
-    localStorage.removeItem('user')
+    const demoUser = {
+      id: '1',
+      name: 'Demo User',
+      email: 'demo@example.com'
+    }
+    setUser(demoUser)
+    localStorage.setItem('user', JSON.stringify(demoUser))
+    // We keep authenticated status true to maintain dashboard access
   }
 
   const value = {

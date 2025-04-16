@@ -4,10 +4,6 @@ import { useAuth } from './context/AuthContext'
 // Layouts
 import DashboardLayout from './components/layout/DashboardLayout'
 
-// Auth Pages
-import LoginPage from './components/auth/LoginPage'
-import RegisterPage from './components/auth/RegisterPage'
-
 // Dashboard Pages
 import DashboardPage from './components/dashboard/DashboardPage'
 import ProjectsPage from './components/projects/ProjectsPage'
@@ -17,29 +13,11 @@ import TasksPage from './components/tasks/TasksPage'
 import TaskDetail from './components/tasks/TaskDetail'
 import TaskForm from './components/tasks/TaskForm'
 
-function ProtectedRoute({ children }) {
-  const { isAuthenticated } = useAuth()
-  
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />
-  }
-  
-  return children
-}
-
 export default function App() {
   return (
     <Routes>
-      {/* Auth Routes */}
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
-      
       {/* Dashboard Routes */}
-      <Route path="/" element={
-        <ProtectedRoute>
-          <DashboardLayout />
-        </ProtectedRoute>
-      }>
+      <Route path="/" element={<DashboardLayout />}>
         <Route index element={<DashboardPage />} />
         <Route path="projects" element={<ProjectsPage />} />
         <Route path="projects/new" element={<ProjectForm />} />

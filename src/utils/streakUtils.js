@@ -1,103 +1,103 @@
-import { format, isAfter, isBefore, isSameDay, subDays } from 'date-fns';
-
 /**
- * Get all days with completed tasks
- * @param {Array} tasks - Array of task objects
- * @returns {Array} - Array of Date objects for days with completed tasks
- */
-export const getCompletedDays = (tasks) => {
-  // Get dates when tasks were completed
-  const uniqueDates = new Set();
-  
-  tasks.forEach(task => {
-    if (task.completed) {
-      // Use completedAt if available, otherwise use createdAt
-      const dateStr = task.completedAt || task.createdAt;
-      if (dateStr) {
-        // Get just the date part (without time) for comparison
-        const dateObj = new Date(dateStr);
-        uniqueDates.add(format(dateObj, 'yyyy-MM-dd'));
-      }
-    }
-  });
-  
-  // Convert string dates back to Date objects
-  return Array.from(uniqueDates).map(dateStr => new Date(dateStr));
-};
-
-/**
- * Calculate current streak of consecutive days with completed tasks
- * @param {Array} completedDays - Array of dates with completed tasks
- * @returns {Number} - Current streak count
+ * Calculate the current streak based on completed days
+ * @param {Array} completedDays - Array of dates when tasks were completed
+ * @returns {number} - Current streak count
  */
 export const calculateStreak = (completedDays) => {
   if (!completedDays.length) return 0;
   
-  // Sort dates in descending order (newest first)
-  const sortedDates = [...completedDays].sort((a, b) => b - a);
+  // Sort days in descending order (newest first)
+  const sortedDays = [...completedDays].sort((a, b) => b - a);
   
-  // Streak must include either today or yesterday to be current
+  let currentStreak = 1;
+  let currentDate = new Date(sortedDays[0]);
+  
+  // Check if the most recent day is today or yesterday
   const today = new Date();
-  const yesterday = subDays(today, 1);
+  today.setHours(0, 0, 0, 0);
   
-  const hasRecentActivity = sortedDates.some(date => 
-    isSameDay(date, today) || isSameDay(date, yesterday)
-  );
+  const yesterday = new Date(today);
+  yesterday.setDate(yesterday.getDate() - 1);
   
-  if (!hasRecentActivity) return 0;
+  const mostRecentDay = new Date(sortedDays[0]);
+  mostRecentDay.setHours(0, 0, 0, 0);
   
-  // Calculate streak
-  let streak = 0;
-  let currentDate = isSameDay(sortedDates[0], today) ? today : yesterday;
+  // If the most recent completion is not today or yesterday, the streak is broken
+  if (!(mostRecentDay.getTime() === today.getTime() || mostRecentDay.getTime() === yesterday.getTime())) {
+    return 0;
+  }
   
-  while (true) {
-    // Check if this date has completed tasks
-    const hasCompletedTasks = sortedDates.some(date => isSameDay(date, currentDate));
+  // Calculate streak by checking consecutive days
+  for (let i = 1; i < sortedDays.length; i++) {
+    const previousDate = new Date(currentDate);
+    previousDate.setDate(previousDate.getDate() - 1);
+    previousDate.setHours(0, 0, 0, 0);
     
-    if (hasCompletedTasks) {
-      streak++;
-      currentDate = subDays(currentDate, 1);
+    const checkDate = new Date(sortedDays[i]);
+    checkDate.setHours(0, 0, 0, 0);
+    
+    if (previousDate.getTime() === checkDate.getTime()) {
+      currentStreak++;
+      currentDate = checkDate;
     } else {
       break;
     }
   }
   
-  return streak;
+  return currentStreak;
 };
 
 /**
- * Get the longest streak of consecutive days with completed tasks
- * @param {Array} completedDays - Array of dates with completed tasks
- * @returns {Number} - Longest streak count
+ * Get the longest streak from an array of completed days
+ * @param {Array} completedDays - Array of dates when tasks were completed
+ * @returns {number} - Longest streak count
  */
 export const getLongestStreak = (completedDays) => {
   if (!completedDays.length) return 0;
   
-  // Sort dates in ascending order (oldest first)
-  const sortedDates = [...completedDays].sort((a, b) => a - b);
+  // Sort days in ascending order
+  const sortedDays = [...completedDays].sort((a, b) => a - b);
   
-  let longestStreak = 0;
+  let longestStreak = 1;
   let currentStreak = 1;
   
-  for (let i = 1; i < sortedDates.length; i++) {
-    const currentDate = sortedDates[i];
-    const previousDate = sortedDates[i-1];
+  for (let i = 1; i < sortedDays.length; i++) {
+    const previousDate = new Date(sortedDays[i-1]);
+    previousDate.setDate(previousDate.getDate() + 1);
+    previousDate.setHours(0, 0, 0, 0);
     
-    // Check if dates are consecutive
-    const expectedNextDay = new Date(previousDate);
-    expectedNextDay.setDate(expectedNextDay.getDate() + 1);
+    const currentDate = new Date(sortedDays[i]);
+    currentDate.setHours(0, 0, 0, 0);
     
-    if (isSameDay(currentDate, expectedNextDay)) {
+    if (previousDate.getTime() === currentDate.getTime()) {
       currentStreak++;
-    } else {
-      // Streak broken, check if it was the longest so far
       longestStreak = Math.max(longestStreak, currentStreak);
+    } else {
       currentStreak = 1;
     }
   }
   
-  // Check once more after the loop
-  longestStreak = Math.max(longestStreak, currentStreak);
-  
   return longestStreak;
+};
+
+/**
+ * Get an array of dates with completed tasks
+ * @param {Array} tasks - Array of task objects
+ * @returns {Array} - Array of unique dates when tasks were completed
+ */
+export const getCompletedDays = (tasks) => {
+  if (!tasks.length) return [];
+  
+  const completedDays = tasks
+    .filter(task => task.completed && task.completedAt)
+    .map(task => {
+      const date = new Date(task.completedAt);
+      date.setHours(0, 0, 0, 0);
+      return date.getTime();
+    });
+  
+  // Get unique dates
+  const uniqueDays = [...new Set(completedDays)].map(timestamp => new Date(timestamp));
+  
+  return uniqueDays;
 };
