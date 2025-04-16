@@ -1,107 +1,58 @@
-import { useState, useEffect } from 'react'
-import { Routes, Route, NavLink } from 'react-router-dom'
-import { Moon, Sun, Home as HomeIcon, BarChart } from 'lucide-react'
-import { motion } from 'framer-motion'
-import Home from './pages/Home'
-import Dashboard from './pages/Dashboard'
-import NotFound from './pages/NotFound'
+import { Routes, Route, Navigate } from 'react-router-dom'
+import { useAuth } from './context/AuthContext'
 
-function App() {
-  const [darkMode, setDarkMode] = useState(() => {
-    const savedTheme = localStorage.getItem('theme')
-    return savedTheme === 'dark' || 
-      (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)
-  })
+// Layouts
+import DashboardLayout from './components/layout/DashboardLayout'
 
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark')
-      localStorage.setItem('theme', 'dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-      localStorage.setItem('theme', 'light')
-    }
-  }, [darkMode])
+// Auth Pages
+import LoginPage from './components/auth/LoginPage'
+import RegisterPage from './components/auth/RegisterPage'
 
-  return (
-    <div className="min-h-screen">
-      <header className="fixed top-0 left-0 right-0 z-10 glass-effect border-b border-surface-200 dark:border-surface-700">
-        <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <motion.div 
-              initial={{ rotate: -10 }}
-              animate={{ rotate: 0 }}
-              className="text-primary dark:text-primary-light font-bold text-2xl"
-            >
-              TaskFlow
-            </motion.div>
-          </div>
-          
-          <nav className="flex-1 max-w-xs mx-8">
-            <ul className="flex justify-center space-x-2">
-              <li>
-                <NavLink 
-                  to="/" 
-                  className={({ isActive }) => 
-                    `flex items-center px-3 py-2 rounded-lg transition-colors ${
-                      isActive 
-                        ? 'bg-primary/10 text-primary dark:bg-primary-light/10 dark:text-primary-light' 
-                        : 'text-surface-600 dark:text-surface-400 hover:bg-surface-100 dark:hover:bg-surface-700'
-                    }`
-                  }
-                >
-                  <HomeIcon size={18} className="mr-1" />
-                  <span>Home</span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink 
-                  to="/dashboard" 
-                  className={({ isActive }) => 
-                    `flex items-center px-3 py-2 rounded-lg transition-colors ${
-                      isActive 
-                        ? 'bg-primary/10 text-primary dark:bg-primary-light/10 dark:text-primary-light' 
-                        : 'text-surface-600 dark:text-surface-400 hover:bg-surface-100 dark:hover:bg-surface-700'
-                    }`
-                  }
-                >
-                  <BarChart size={18} className="mr-1" />
-                  <span>Dashboard</span>
-                </NavLink>
-              </li>
-            </ul>
-          </nav>
-          
-          <motion.button
-            whileTap={{ scale: 0.9 }}
-            onClick={() => setDarkMode(!darkMode)}
-            className="p-2 rounded-full bg-surface-100 dark:bg-surface-800 hover:bg-surface-200 dark:hover:bg-surface-700 transition-colors"
-            aria-label="Toggle dark mode"
-          >
-            {darkMode ? (
-              <Sun size={20} className="text-yellow-400" />
-            ) : (
-              <Moon size={20} className="text-surface-600" />
-            )}
-          </motion.button>
-        </div>
-      </header>
-      
-      <main className="pt-16 pb-8">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </main>
-      
-      <footer className="border-t border-surface-200 dark:border-surface-800 py-4 text-center text-surface-500">
-        <div className="container mx-auto px-4">
-          <p>© {new Date().getFullYear()} TaskFlow. All rights reserved.</p>
-        </div>
-      </footer>
-    </div>
-  )
+// Dashboard Pages
+import DashboardPage from './components/dashboard/DashboardPage'
+import ProjectsPage from './components/projects/ProjectsPage'
+import ProjectDetail from './components/projects/ProjectDetail'
+import ProjectForm from './components/projects/ProjectForm'
+import TasksPage from './components/tasks/TasksPage'
+import TaskDetail from './components/tasks/TaskDetail'
+import TaskForm from './components/tasks/TaskForm'
+
+function ProtectedRoute({ children }) {
+  const { isAuthenticated } = useAuth()
+  
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />
+  }
+  
+  return children
 }
 
-export default App
+export default function App() {
+  return (
+    <Routes>
+      {/* Auth Routes */}
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+      
+      {/* Dashboard Routes */}
+      <Route path="/" element={
+        <ProtectedRoute>
+          <DashboardLayout />
+        </ProtectedRoute>
+      }>
+        <Route index element={<DashboardPage />} />
+        <Route path="projects" element={<ProjectsPage />} />
+        <Route path="projects/new" element={<ProjectForm />} />
+        <Route path="projects/:id" element={<ProjectDetail />} />
+        <Route path="projects/:id/edit" element={<ProjectForm />} />
+        <Route path="tasks" element={<TasksPage />} />
+        <Route path="tasks/:id" element={<TaskDetail />} />
+        <Route path="projects/:projectId/tasks/new" element={<TaskForm />} />
+        <Route path="tasks/:id/edit" element={<TaskForm />} />
+      </Route>
+      
+      {/* Catch all - redirect to dashboard */}
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+  )
+}
