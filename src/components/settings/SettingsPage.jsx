@@ -13,7 +13,7 @@ import {
   Trash2, 
   LogOut,
   UserCog,
-  Google,
+  Chrome,
   Facebook,
   Twitter
 } from 'lucide-react'
@@ -306,7 +306,7 @@ export default function SettingsPage() {
           <div className="space-y-4">
             <div className="flex items-center justify-between py-2">
               <div className="flex items-center">
-                <Google className="text-red-500 mr-3" size={20} />
+                <Chrome className="text-red-500 mr-3" size={20} />
                 <div>
                   <h4 className="font-medium text-surface-800">Google</h4>
                   <p className="text-sm text-surface-500">Sign in with your Google account</p>
