@@ -83,59 +83,84 @@ export default function SettingsPage() {
           description="Control which emails you receive"
         >
           <div className="space-y-4">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between p-2 hover:bg-surface-50 rounded-lg transition-colors">
               <div>
                 <h4 className="font-medium text-surface-800">Task Assignments</h4>
                 <p className="text-sm text-surface-500">Receive emails when you're assigned to a task</p>
               </div>
-              <ToggleSwitch 
-                enabled={formData.emailOnTaskAssigned} 
-                onChange={() => handleToggle('emailOnTaskAssigned')} 
-              />
+              <div className="flex items-center">
+                <span className="text-sm font-medium mr-3 text-surface-600">
+                  {formData.emailOnTaskAssigned ? 'Enabled' : 'Disabled'}
+                </span>
+                <ToggleSwitch 
+                  enabled={formData.emailOnTaskAssigned} 
+                  onChange={() => handleToggle('emailOnTaskAssigned')} 
+                />
+              </div>
             </div>
 
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between p-2 hover:bg-surface-50 rounded-lg transition-colors">
               <div>
                 <h4 className="font-medium text-surface-800">Comments</h4>
                 <p className="text-sm text-surface-500">Receive emails when someone comments on your tasks</p>
               </div>
-              <ToggleSwitch 
-                enabled={formData.emailOnComments} 
-                onChange={() => handleToggle('emailOnComments')} 
-              />
+              <div className="flex items-center">
+                <span className="text-sm font-medium mr-3 text-surface-600">
+                  {formData.emailOnComments ? 'Enabled' : 'Disabled'}
+                </span>
+                <ToggleSwitch 
+                  enabled={formData.emailOnComments} 
+                  onChange={() => handleToggle('emailOnComments')} 
+                />
+              </div>
             </div>
 
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between p-2 hover:bg-surface-50 rounded-lg transition-colors">
               <div>
                 <h4 className="font-medium text-surface-800">Deadline Reminders</h4>
                 <p className="text-sm text-surface-500">Get reminders about upcoming task deadlines</p>
               </div>
-              <ToggleSwitch 
-                enabled={formData.emailOnDeadlines} 
-                onChange={() => handleToggle('emailOnDeadlines')} 
-              />
+              <div className="flex items-center">
+                <span className="text-sm font-medium mr-3 text-surface-600">
+                  {formData.emailOnDeadlines ? 'Enabled' : 'Disabled'}
+                </span>
+                <ToggleSwitch 
+                  enabled={formData.emailOnDeadlines} 
+                  onChange={() => handleToggle('emailOnDeadlines')} 
+                />
+              </div>
             </div>
 
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between p-2 hover:bg-surface-50 rounded-lg transition-colors">
               <div>
                 <h4 className="font-medium text-surface-800">Status Updates</h4>
                 <p className="text-sm text-surface-500">Receive emails when task statuses change</p>
               </div>
-              <ToggleSwitch 
-                enabled={formData.emailOnStatusUpdates} 
-                onChange={() => handleToggle('emailOnStatusUpdates')} 
-              />
+              <div className="flex items-center">
+                <span className="text-sm font-medium mr-3 text-surface-600">
+                  {formData.emailOnStatusUpdates ? 'Enabled' : 'Disabled'}
+                </span>
+                <ToggleSwitch 
+                  enabled={formData.emailOnStatusUpdates} 
+                  onChange={() => handleToggle('emailOnStatusUpdates')} 
+                />
+              </div>
             </div>
 
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between p-2 hover:bg-surface-50 rounded-lg transition-colors">
               <div>
                 <h4 className="font-medium text-surface-800">Weekly Digest</h4>
                 <p className="text-sm text-surface-500">Get a weekly summary of your tasks and projects</p>
               </div>
-              <ToggleSwitch 
-                enabled={formData.emailDigest} 
-                onChange={() => handleToggle('emailDigest')} 
-              />
+              <div className="flex items-center">
+                <span className="text-sm font-medium mr-3 text-surface-600">
+                  {formData.emailDigest ? 'Enabled' : 'Disabled'}
+                </span>
+                <ToggleSwitch 
+                  enabled={formData.emailDigest} 
+                  onChange={() => handleToggle('emailDigest')} 
+                />
+              </div>
             </div>
           </div>
         </SettingSection>
@@ -147,15 +172,20 @@ export default function SettingsPage() {
           description="Add an extra layer of security to your account"
         >
           <div className="space-y-4">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between p-2 hover:bg-surface-50 rounded-lg transition-colors">
               <div>
                 <h4 className="font-medium text-surface-800">Enable MFA</h4>
                 <p className="text-sm text-surface-500">Require a verification code when signing in</p>
               </div>
-              <ToggleSwitch 
-                enabled={formData.mfaEnabled} 
-                onChange={() => handleToggle('mfaEnabled')} 
-              />
+              <div className="flex items-center">
+                <span className="text-sm font-medium mr-3 text-surface-600">
+                  {formData.mfaEnabled ? 'Enabled' : 'Disabled'}
+                </span>
+                <ToggleSwitch 
+                  enabled={formData.mfaEnabled} 
+                  onChange={() => handleToggle('mfaEnabled')} 
+                />
+              </div>
             </div>
 
             {formData.mfaEnabled && (
@@ -216,15 +246,20 @@ export default function SettingsPage() {
               </select>
             </div>
 
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between p-2 hover:bg-surface-50 rounded-lg transition-colors">
               <div>
                 <h4 className="font-medium text-surface-800">Login Alerts</h4>
                 <p className="text-sm text-surface-500">Get email alerts for new login attempts</p>
               </div>
-              <ToggleSwitch 
-                enabled={formData.loginAlerts} 
-                onChange={() => handleToggle('loginAlerts')} 
-              />
+              <div className="flex items-center">
+                <span className="text-sm font-medium mr-3 text-surface-600">
+                  {formData.loginAlerts ? 'Enabled' : 'Disabled'}
+                </span>
+                <ToggleSwitch 
+                  enabled={formData.loginAlerts} 
+                  onChange={() => handleToggle('loginAlerts')} 
+                />
+              </div>
             </div>
 
             <div className="mt-4 p-4 bg-red-50 rounded-lg border border-red-100">
