@@ -49,13 +49,19 @@ export default function Sidebar() {
           </h2>
           <ul className="mt-3 space-y-1 px-3">
             <li>
-              <a 
-                href="#" 
-                className="flex items-center px-4 py-2.5 text-sm font-medium text-surface-700 rounded-xl hover:bg-surface-100 transition-colors"
+              <NavLink 
+                to="/settings" 
+                className={({ isActive }) => 
+                  `flex items-center px-4 py-2.5 text-sm font-medium rounded-xl transition-colors ${
+                    isActive 
+                      ? 'bg-primary/10 text-primary' 
+                      : 'text-surface-700 hover:bg-surface-100'
+                  }`
+                }
               >
                 <span className="mr-3"><Settings size={20} /></span>
                 Settings
-              </a>
+              </NavLink>
             </li>
             <li>
               <a 

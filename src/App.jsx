@@ -12,6 +12,7 @@ import ProjectForm from './components/projects/ProjectForm'
 import TasksPage from './components/tasks/TasksPage'
 import TaskDetail from './components/tasks/TaskDetail'
 import TaskForm from './components/tasks/TaskForm'
+import SettingsPage from './components/settings/SettingsPage'
 
 export default function App() {
   return (
@@ -27,6 +28,7 @@ export default function App() {
         <Route path="tasks/:id" element={<TaskDetail />} />
         <Route path="projects/:projectId/tasks/new" element={<TaskForm />} />
         <Route path="tasks/:id/edit" element={<TaskForm />} />
+        <Route path="settings" element={<SettingsPage />} />
       </Route>
       
       {/* Catch all - redirect to dashboard */}
