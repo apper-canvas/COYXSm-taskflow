@@ -4,51 +4,77 @@
 
 @layer base {
   :root {
-    --color-primary: 59 130 246;
-    --color-primary-light: 96 165 250;
-    --color-primary-dark: 37 99 235;
-    --color-secondary: 139 92 246;
-    --color-secondary-light: 167 139 250;
-    --color-surface-50: 249 250 251;
-    --color-surface-100: 243 244 246;
-    --color-surface-200: 229 231 235;
-    --color-surface-300: 209 213 219;
-    --color-surface-400: 156 163 175;
-    --color-surface-500: 107 114 128;
-    --color-surface-600: 75 85 99;
-    --color-surface-700: 55 65 81;
-    --color-surface-800: 31 41 55;
-    --color-surface-900: 17 24 39;
+    /* Primary theme color - muted indigo */
+    --color-primary: 79 70 229;
+    --color-primary-light: 165 180 252;
+    --color-primary-dark: 67 56 202;
+    
+    /* Secondary color - muted teal */
+    --color-secondary: 45 212 191;
+    --color-secondary-light: 153 246 228;
+    
+    /* Neutral surface colors - softer grays with slight blue tint */
+    --color-surface-50: 248 250 252;
+    --color-surface-100: 241 245 249;
+    --color-surface-200: 226 232 240;
+    --color-surface-300: 203 213 225;
+    --color-surface-400: 148 163 184;
+    --color-surface-500: 100 116 139;
+    --color-surface-600: 71 85 105;
+    --color-surface-700: 51 65 85;
+    --color-surface-800: 30 41 59;
+    --color-surface-900: 15 23 42;
+  }
+  
+  html, body {
+    @apply antialiased text-surface-700 bg-surface-50;
+  }
+  
+  /* Improved focus styles */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-primary ring-offset-1;
   }
 }
 
 @layer components {
-  .stat-card {
-    @apply bg-white dark:bg-surface-800 p-4 rounded-xl border border-surface-200 dark:border-surface-700;
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-xl font-medium transition-all duration-200 focus:outline-none;
   }
   
-  .priority-badge {
-    @apply text-xs font-medium px-2 py-1 rounded;
+  .btn-primary {
+    @apply bg-primary text-white hover:bg-primary-dark/90 shadow-sm;
+  }
+  
+  .btn-outline {
+    @apply border border-surface-200 hover:border-surface-300 bg-white text-surface-700 hover:bg-surface-50 shadow-sm;
+  }
+  
+  .input-field {
+    @apply w-full px-4 py-2 border border-surface-200 rounded-xl bg-white focus:border-primary focus:ring-1 focus:ring-primary/20 shadow-inner-soft text-surface-700 placeholder:text-surface-400 transition-all duration-200;
+  }
+  
+  .task-card {
+    @apply p-4 rounded-xl bg-white border border-surface-200 transition-all duration-200;
+  }
+
+  .task-complete {
+    @apply text-surface-400 line-through;
   }
   
   .priority-high {
-    @apply bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200;
+    @apply text-rose-600;
   }
   
   .priority-medium {
-    @apply bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200;
+    @apply text-amber-600;
   }
   
   .priority-low {
-    @apply bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200;
+    @apply text-emerald-600;
   }
-  
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-  
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
+
+  /* Transition effects */
+  .transition-smooth {
+    @apply transition-all duration-300 ease-in-out;
   }
 }

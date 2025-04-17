@@ -25,6 +25,20 @@ export default {
           900: 'rgb(var(--color-surface-900) / <alpha-value>)',
         },
       },
+      borderRadius: {
+        'sm': '0.25rem',
+        'md': '0.375rem',
+        'lg': '0.5rem',
+        'xl': '0.75rem',
+        '2xl': '1rem',
+        '3xl': '1.5rem',
+      },
+      boxShadow: {
+        'soft': '0 2px 10px rgba(0, 0, 0, 0.05)',
+        'card': '0 4px 12px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.02)',
+        'dropdown': '0 4px 16px rgba(0, 0, 0, 0.08)',
+        'inner-soft': 'inset 0 2px 4px rgba(0, 0, 0, 0.03)'
+      },
     },
   },
   plugins: [],

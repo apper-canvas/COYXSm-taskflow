@@ -111,11 +111,11 @@ const MainFeature = ({
   const getPriorityIcon = (priority) => {
     switch (priority) {
       case 'high':
-        return <Flag size={16} className="text-red-500" />
+        return <Flag size={16} className="text-rose-500" />
       case 'medium':
-        return <Flag size={16} className="text-yellow-500" />
+        return <Flag size={16} className="text-amber-500" />
       case 'low':
-        return <Flag size={16} className="text-green-500" />
+        return <Flag size={16} className="text-emerald-500" />
       default:
         return null
     }
@@ -131,9 +131,9 @@ const MainFeature = ({
   }
   
   const taskVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 10 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
-    exit: { opacity: 0, x: -20, transition: { duration: 0.2 } }
+    exit: { opacity: 0, x: -10, transition: { duration: 0.2 } }
   }
   
   const formVariants = {
@@ -164,9 +164,9 @@ const MainFeature = ({
   }
   
   return (
-    <div className="bg-white dark:bg-surface-800 rounded-2xl p-6 shadow-soft border border-surface-200 dark:border-surface-700">
+    <div className="bg-white dark:bg-surface-800 rounded-2xl p-6 shadow-card border border-surface-200 dark:border-surface-700">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-        <h2 className="text-2xl font-bold">My Tasks</h2>
+        <h2 className="text-2xl font-bold text-surface-800 dark:text-surface-100">My Tasks</h2>
         
         <div className="flex flex-wrap gap-3">
           <div className="relative" ref={filterMenuRef}>
@@ -176,16 +176,16 @@ const MainFeature = ({
             >
               <Filter size={16} />
               Filter
-              <ChevronDown size={16} className={`transition-transform ${isFilterMenuOpen ? 'rotate-180' : ''}`} />
+              <ChevronDown size={16} className={`transition-transform duration-200 ${isFilterMenuOpen ? 'rotate-180' : ''}`} />
             </button>
             
             <AnimatePresence>
               {isFilterMenuOpen && (
                 <motion.div
-                  initial={{ opacity: 0, y: 10 }}
+                  initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  className="absolute right-0 mt-2 w-48 bg-white dark:bg-surface-800 rounded-xl shadow-lg border border-surface-200 dark:border-surface-700 z-10"
+                  exit={{ opacity: 0, y: 5 }}
+                  className="absolute right-0 mt-2 w-48 bg-white dark:bg-surface-800 rounded-xl shadow-dropdown border border-surface-200 dark:border-surface-700 z-10"
                 >
                   <div className="p-2">
                     <button
@@ -238,16 +238,16 @@ const MainFeature = ({
             >
               <ArrowUpDown size={16} />
               Sort
-              <ChevronDown size={16} className={`transition-transform ${isSortMenuOpen ? 'rotate-180' : ''}`} />
+              <ChevronDown size={16} className={`transition-transform duration-200 ${isSortMenuOpen ? 'rotate-180' : ''}`} />
             </button>
             
             <AnimatePresence>
               {isSortMenuOpen && (
                 <motion.div
-                  initial={{ opacity: 0, y: 10 }}
+                  initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  className="absolute right-0 mt-2 w-48 bg-white dark:bg-surface-800 rounded-xl shadow-lg border border-surface-200 dark:border-surface-700 z-10"
+                  exit={{ opacity: 0, y: 5 }}
+                  className="absolute right-0 mt-2 w-48 bg-white dark:bg-surface-800 rounded-xl shadow-dropdown border border-surface-200 dark:border-surface-700 z-10"
                 >
                   <div className="p-2">
                     <button
@@ -281,8 +281,8 @@ const MainFeature = ({
           </div>
           
           <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             onClick={() => setShowForm(!showForm)}
             className="btn btn-primary flex items-center gap-2"
           >
@@ -302,14 +302,14 @@ const MainFeature = ({
             exit="exit"
             className="mb-6"
           >
-            <form onSubmit={handleSubmit} className="bg-surface-50 dark:bg-surface-700 rounded-xl p-4 border border-surface-200 dark:border-surface-600">
-              <h3 className="text-lg font-semibold mb-4">
+            <form onSubmit={handleSubmit} className="bg-surface-50 dark:bg-surface-700 rounded-xl p-5 border border-surface-200 dark:border-surface-600 shadow-inner-soft">
+              <h3 className="text-lg font-semibold mb-4 text-surface-800 dark:text-surface-100">
                 {editingTask ? 'Edit Task' : 'Create New Task'}
               </h3>
               
               <div className="space-y-4">
                 <motion.div variants={itemVariants}>
-                  <label className="block text-sm font-medium mb-1">Task Title</label>
+                  <label className="block text-sm font-medium mb-1.5 text-surface-700 dark:text-surface-300">Task Title</label>
                   <input
                     type="text"
                     name="title"
@@ -322,7 +322,7 @@ const MainFeature = ({
                 </motion.div>
                 
                 <motion.div variants={itemVariants}>
-                  <label className="block text-sm font-medium mb-1">Description (Optional)</label>
+                  <label className="block text-sm font-medium mb-1.5 text-surface-700 dark:text-surface-300">Description (Optional)</label>
                   <textarea
                     name="description"
                     value={editingTask ? editingTask.description : newTask.description}
@@ -334,7 +334,7 @@ const MainFeature = ({
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <motion.div variants={itemVariants}>
-                    <label className="block text-sm font-medium mb-1">Due Date (Optional)</label>
+                    <label className="block text-sm font-medium mb-1.5 text-surface-700 dark:text-surface-300">Due Date (Optional)</label>
                     <input
                       type="date"
                       name="dueDate"
@@ -345,7 +345,7 @@ const MainFeature = ({
                   </motion.div>
                   
                   <motion.div variants={itemVariants}>
-                    <label className="block text-sm font-medium mb-1">Priority</label>
+                    <label className="block text-sm font-medium mb-1.5 text-surface-700 dark:text-surface-300">Priority</label>
                     <select
                       name="priority"
                       value={editingTask ? editingTask.priority : newTask.priority}
@@ -392,13 +392,13 @@ const MainFeature = ({
           <div className="mb-4 text-surface-400">
             <CheckCircle2 size={48} className="mx-auto" />
           </div>
-          <h3 className="text-xl font-medium mb-2">No tasks yet</h3>
+          <h3 className="text-xl font-medium mb-2 text-surface-700 dark:text-surface-200">No tasks yet</h3>
           <p className="text-surface-500 dark:text-surface-400 mb-6">
             Create your first task to get started
           </p>
           <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             onClick={() => setShowForm(true)}
             className="btn btn-primary inline-flex items-center gap-2"
           >
@@ -434,7 +434,7 @@ const MainFeature = ({
                   </button>
                   
                   <div className="flex-1 min-w-0">
-                    <h3 className={`text-lg font-medium break-words ${task.completed ? 'task-complete' : ''}`}>
+                    <h3 className={`text-lg font-medium break-words ${task.completed ? 'task-complete' : 'text-surface-800 dark:text-surface-200'}`}>
                       {task.title}
                     </h3>
                     
@@ -468,7 +468,7 @@ const MainFeature = ({
                     </div>
                   </div>
                   
-                  <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                     <motion.button
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
@@ -482,7 +482,7 @@ const MainFeature = ({
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                       onClick={() => deleteTask(task.id)}
-                      className="p-1.5 rounded-full hover:bg-red-100 dark:hover:bg-red-900/30 text-surface-500 hover:text-red-600 dark:text-surface-400 dark:hover:text-red-400 transition-colors"
+                      className="p-1.5 rounded-full hover:bg-rose-100 dark:hover:bg-rose-900/30 text-surface-500 hover:text-rose-600 dark:text-surface-400 dark:hover:text-rose-400 transition-colors"
                     >
                       <Trash2 size={16} />
                     </motion.button>
